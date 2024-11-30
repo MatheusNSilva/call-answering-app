@@ -1,7 +1,8 @@
 export const integersInputValidation = (value) => {
+  console.log("integersInputValidation", value);
   const numberValue = value.replace(/\D/g, "");
 
   const validNumber = numberValue.replace(/^0+/, "");
 
-  return validNumber === "" ? validNumber : Number(validNumber);
+  return validNumber === "" ? "" : Number(validNumber);
 };

@@ -1,16 +1,11 @@
 .form-box {
-  border: 0.2px solid #a6d7f5;
-  background-color: #ffff;
-  border-radius: 8%;
-  width: 30%;
-}
-.form-fields {
   display: flex;
-  height: 100%;
   flex-direction: column;
-  margin: 5%;
 }
-.form-actions {
-  margin: 5%;
-  justify-self: flex-end;
+.form-button {
+  margin: 1% !important;
+  align-self: flex-end;
+}
+.form-input {
+  margin: 1%;
 }

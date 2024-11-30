@@ -1,55 +1,43 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { connectUser } from "../store/userSlice";
-import { integersInputValidation } from "../utils/integersInputHelper";
-import { Button, OutlinedInput } from "@mui/material";
+import { Container, Box, Typography } from "@mui/material";
 import FormBox from "../components/FormBox";
 import "../styles/HomePage.css";
 
 const HomePage = () => {
-  const [username, setUsername] = useState("");
-  const [maxChats, setMaxChats] = useState();
   const dispatch = useDispatch();
-
-  const handleConnect = () => {
-    console.log("username", username);
-    console.log("maxChats", maxChats);
-    dispatch(connectUser({ name: username, maxChats }));
+  const [formData, setFormData] = useState({
+    username: '',
+    maxChats: 0,
+  });
+  
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    console.log("handleInputChange", name, value);
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  const handleMaxChatsInput = (e) => {
-    const inputValidated = integersInputValidation(e.target.value);
-    setMaxChats(inputValidated);
+  const handleFormSubmit = (data) => {
+    setFormData(data);
+    dispatch(connectUser({ name: data.username, maxChats: data.maxChats }));
+    console.log('Dados do formulário enviados para o Redux:', data);
   };
 
   return (
-    <div className={"home-page"}>
-      <h1>Bem-vindo</h1>
-      <FormBox
-        fields={
-          <>
-            <OutlinedInput
-              name={"username"}
-              className={"inputs-page"}
-              placeholder="Seu nome"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <OutlinedInput
-              name={"max-chats"}
-              placeholder="Máximo de chats"
-              value={maxChats}
-              onChange={(e) => handleMaxChatsInput(e)}
-            />
-          </>
-        }
-        actions={
-          <Button variant={"contained"} size={"small"} onClick={handleConnect}>
-            Conectar
-          </Button>
-        }
-      />
-    </div>
+    <Container className={"home-page"}>
+      <Box className={"home-page-box"}>
+        <Typography className={"home-page-title"} variant="h4">Central de Chamados</Typography>
+        <FormBox 
+          formData={formData}
+          onSubmit={handleFormSubmit}
+          onChange={handleInputChange}
+        />
+      </Box>
+    </Container>
   );
 };
 
