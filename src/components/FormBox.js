@@ -6,24 +6,25 @@ import { integersInputValidation } from "../utils/integersInputHelper";
 import "../styles/FormBox.css";
 
 const FormBox = ({ formData, onSubmit, onChange }) => {
-  const { username, maxChats } = formData;
+  const { username, maxCalls } = formData;
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
   } = useForm({
-    defaultValues: { username, maxChats },
+    defaultValues: { username, maxCalls },
   });
 
   const onSubmitForm = (data) => {
+    console.log("cheguei no Submit Form", data);
     onSubmit(data);
   };
 
-  const handleMaxChatsChange = (e) => {
+  const handleMaxCallsOnChange = (e) => {
     const correctedValue = integersInputValidation(e.target.value);
-    setValue("maxChats", correctedValue);
-    onChange({ target: { name: "maxChats", value: correctedValue } });
+    setValue("maxCalls", correctedValue);
+    onChange({ target: { name: "maxCalls", value: correctedValue } });
   };
 
   return (
@@ -42,10 +43,10 @@ const FormBox = ({ formData, onSubmit, onChange }) => {
           name={"max-chats"}
           className={"form-input"}
           placeholder="Máximo de chats"
-          error={!!errors.maxChats}
-          {...register("maxChats", {
+          error={!!errors.maxCalls}
+          {...register("maxCalls", {
             required: "O número máximo de chats é obrigatório.",
-            onChange: handleMaxChatsChange,
+            onChange: handleMaxCallsOnChange,
           })}
         />
         <Button variant={"contained"} type={"submit"} className={"form-button"}>

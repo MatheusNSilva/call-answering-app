@@ -1,15 +1,17 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { connectUser } from "../store/userSlice";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Container, Box, Typography } from "@mui/material";
 import FormBox from "../components/FormBox";
+import useSocket from "../hooks/useSocket";
 import "../styles/HomePage.css";
 
 const HomePage = () => {
-  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const { connect } = useSocket();
+
   const [formData, setFormData] = useState({
     username: "",
-    maxChats: "",
+    maxCalls: "",
   });
   
   const handleInputChange = (e) => {
@@ -21,9 +23,16 @@ const HomePage = () => {
   };
 
   const handleFormSubmit = (data) => {
+    console.log("cheguei no Submit HomePage", data);
     setFormData(data);
-    dispatch(connectUser({ name: data.username, maxChats: data.maxChats }));
+    connect(data.username, data.maxCalls);
   };
+
+  useEffect(() => {
+    if (user.connected) {
+      console.log("Usuário conectado ao WebSocket com nome:", user.name);
+    }
+  }, [user])
 
   return (
     <Container className={"home-page"}>

@@ -4,18 +4,18 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     name: "",
-    maxChats: 0,
+    maxCalls: 0,
     connected: false,
   },
   reducers: {
     connectUser: (state, action) => {
       state.name = action.payload.name;
-      state.maxChats = action.payload.maxChats;
+      state.maxCalls = action.payload.maxCalls;
       state.connected = true;
     },
     disconnectUser: (state) => {
       state.name = "";
-      state.maxChats = 0;
+      state.maxCalls = 0;
       state.connected = false;
     },
   },

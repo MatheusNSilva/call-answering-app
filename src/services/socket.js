@@ -1,9 +1,10 @@
 import { io } from "socket.io-client";
 
-const SERVER_URL = "http://dev.digitro.com/callcontrol";
+const SERVER_URL = "http://dev.digitro.com";
 
 const socket = io(SERVER_URL, {
-  autoConnect: false,
+  path: "/callcontrol",
+  reconnectionDelay: 10000,
 });
 
 export default socket;
