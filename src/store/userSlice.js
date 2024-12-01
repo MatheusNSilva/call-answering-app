@@ -9,6 +9,7 @@ const userSlice = createSlice({
   },
   reducers: {
     connectUser: (state, action) => {
+      console.log("ConnectdUser", action.payload);
       state.name = action.payload.name;
       state.maxCalls = action.payload.maxCalls;
       state.connected = true;

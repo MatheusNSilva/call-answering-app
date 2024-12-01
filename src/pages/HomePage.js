@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Container, Box, Typography } from "@mui/material";
+import { connectUser } from "../store/userSlice";
 import FormBox from "../components/FormBox";
 import useSocket from "../hooks/useSocket";
 import "../styles/HomePage.css";
 
 const HomePage = () => {
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const { connect } = useSocket();
-
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     maxCalls: "",
@@ -23,9 +26,10 @@ const HomePage = () => {
   };
 
   const handleFormSubmit = (data) => {
-    console.log("cheguei no Submit HomePage", data);
     setFormData(data);
+    dispatch(connectUser({ name: data.username, maxCalls: data.maxCalls }))
     connect(data.username, data.maxCalls);
+    navigate("/call-center");
   };
 
   useEffect(() => {

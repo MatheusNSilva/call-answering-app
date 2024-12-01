@@ -17,7 +17,6 @@ const FormBox = ({ formData, onSubmit, onChange }) => {
   });
 
   const onSubmitForm = (data) => {
-    console.log("cheguei no Submit Form", data);
     onSubmit(data);
   };
 

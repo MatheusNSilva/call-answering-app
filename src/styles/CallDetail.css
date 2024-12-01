@@ -1,0 +1,14 @@
+.call-box {
+    display: flex;
+    flex-direction: column;
+    border-radius: 3%;
+    padding: 2%;
+    margin: 15%;
+    background-color: #ededed;
+}
+.call-detail {
+
+}
+.end-call-button {
+    align-self: flex-end;
+}

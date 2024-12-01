@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addCall, leaveCall } from "../store/callSlice";
-import { connectUser, disconnectUser } from "../store/userSlice";
+import { disconnectUser } from "../store/userSlice";
 import socket from "../services/socket";
 
 const useSocket = () => {
@@ -12,7 +12,6 @@ const useSocket = () => {
 
     socket.on("USER_CONNECT", (data) => {
       console.log("Conectado ao servidor WebSocket:", data);
-      dispatch(connectUser({ name: data.username, maxChats: data.maxCalls }));
     });
 
     socket.on("USER_CONNECTION_ERROR", (error) => {
