@@ -1,0 +1,7 @@
+.call-page-header {
+  align-items: center;
+}
+.call-page-header-toolbar {
+  width: 80%;
+  justify-content: space-between;
+}

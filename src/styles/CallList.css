@@ -1,0 +1,8 @@
+.call-list {
+    width: 30%;
+    border-right: 3.5px solid #ededed;
+    max-height: 100%;
+    overflow: auto;
+}
+.call-list-item {
+}

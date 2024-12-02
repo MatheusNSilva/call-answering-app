@@ -6,16 +6,9 @@ import "../styles/CallDetail.css";
 const CallDetail = ({ call, onEndCall }) => {
   if (!call) {
     return (
-      <Box
-        sx={{
-          height: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="h6">
-          Selecione uma chamada para ver os detalhes
+      <Box className={"call-box-empty"} >
+        <Typography component={"div"} className={"call-box-advice"}>
+          Selecione uma chamada para vizualizar os detalhes
         </Typography>
       </Box>
     );
@@ -32,7 +25,7 @@ const CallDetail = ({ call, onEndCall }) => {
           Data de Início: {call.startDate}
         </Typography>
       </Box>
-      <Button variant={"contained"} onClick={onEndCall} className={"end-call-button"}>
+      <Button variant={"contained"} onClick={() => onEndCall(call.callId)} className={"end-call-button"}>
         Finalizar
       </Button>
     </Box>

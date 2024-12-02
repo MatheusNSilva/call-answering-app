@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Container, Box, Typography } from "@mui/material";
+import { Container, Box, Typography, Alert } from "@mui/material";
 import { connectUser } from "../store/userSlice";
 import FormBox from "../components/FormBox";
 import useSocket from "../hooks/useSocket";
@@ -12,6 +12,7 @@ const HomePage = () => {
   const dispatch = useDispatch();
   const { connect } = useSocket();
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     username: "",
     maxCalls: "",
@@ -27,21 +28,29 @@ const HomePage = () => {
 
   const handleFormSubmit = (data) => {
     setFormData(data);
-    dispatch(connectUser({ name: data.username, maxCalls: data.maxCalls }))
+    dispatch(connectUser({ name: data.username, maxCalls: data.maxCalls }));
     connect(data.username, data.maxCalls);
-    navigate("/call-center");
   };
-
+  
   useEffect(() => {
     if (user.connected) {
-      console.log("Usuário conectado ao WebSocket com nome:", user.name);
+      navigate("/call-center");
     }
-  }, [user])
+    if (user.error) {
+      console.error("Erro de conexão detectado:", user.error);
+      setError(user.error || "Erro ao conectar ao servidor");
+    }
+  }, [user, navigate])
 
   return (
     <Container className={"home-page"}>
       <Box className={"home-page-box"}>
         <Typography className={"home-page-title"} variant="h4">Central de Chamados</Typography>
+        {error && (
+          <Alert severity="error" sx={{ marginBottom: 2 }}>
+            {error}
+          </Alert>
+        )}
         <FormBox 
           formData={formData}
           onSubmit={handleFormSubmit}

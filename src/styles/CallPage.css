@@ -1,27 +1,32 @@
 .call-page {
-    display: flex;
+  display: flex;
 }
-.call-page-nav { 
-    margin-bottom: 2%;
+.call-page-nav {
+  margin-bottom: 2%;
 }
 .call-page-main {
-    margin-top: 2%;
-    height: 80vh !important;
-    margin-top: 8%;
-    width: 100%;
-    background-color: #ffff;
-    border-radius: 3%;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-}
-.call-page-list {
-    padding: 2;
-    width: 30%;
-    border-right: 0.5px solid #d8e8f1;
-    max-height: 100%;
-    overflow: auto;
+  margin-top: 2%;
+  height: 80vh !important;
+  margin-top: 8%;
+  width: 100%;
+  background-color: #ffff;
+  border-radius: 3%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
 }
 .call-page-box {
-    width: 60%;
+  width: 60%;
+}
+.call-page-box-title {
+  padding: 5%;
+  color: #348feb;
+}
+.call-page-loading {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }

@@ -10,6 +10,7 @@ const callSlice = createSlice({
     service: "",
     caller: "",
     activeCall: null,
+    error: null,
   },
   reducers: {
     addCall: (state, action) => {
@@ -25,8 +26,20 @@ const callSlice = createSlice({
         (call) => call.callId !== action.payload.callId
       );
     },
+    setLeaveCallError: (state, action) => {
+      console.error("End Call Error:", action.payload);
+      state.error = action.payload.error;
+    },
+    clearCallError: (state) => {
+      state.error = null;
+    }
   },
 });
 
-export const { addCall, leaveCall } = callSlice.actions;
+export const { 
+  addCall, 
+  leaveCall, 
+  setLeaveCallError,
+  clearCallError,
+} = callSlice.actions;
 export default callSlice.reducer;
