@@ -27,8 +27,7 @@ const HomePage = () => {
   };
 
   const handleFormSubmit = (data) => {
-    setFormData(data);
-    dispatch(connectUser({ name: data.username, maxCalls: data.maxCalls }));
+    setFormData(data);    
     connect(data.username, data.maxCalls);
   };
   

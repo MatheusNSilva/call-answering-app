@@ -8,7 +8,7 @@ const CallDetail = ({ call, onEndCall }) => {
     return (
       <Box className={"call-box-empty"} >
         <Typography component={"div"} className={"call-box-advice"}>
-          Selecione uma chamada para vizualizar os detalhes
+          Selecione um chamado para vizualizar os detalhes
         </Typography>
       </Box>
     );
@@ -16,7 +16,7 @@ const CallDetail = ({ call, onEndCall }) => {
   return (
     <Box className={"call-box"}>
       <Box className={"call-detail"}>
-        <Typography variant="h6">Detalhes da Chamada</Typography>
+        <Typography variant="h6">Detalhes do Chamado</Typography>
         <Typography variant="body1">ID: {call.callId}</Typography>
         <Typography variant="body1">Cliente: {call.caller}</Typography>
         <Typography variant="body1">Status: {call.service}</Typography>

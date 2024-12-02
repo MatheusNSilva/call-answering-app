@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { clearCallError, addCall, leaveCall, setLeaveCallError } from "../store/callSlice";
-import { clearUserError, disconnectUser, setConnectionError, setDisconnectionError } from "../store/userSlice";
+import { clearUserError, disconnectUser, setConnectionError, setDisconnectionError, connectUser } from "../store/userSlice";
 import { validateCall } from "../utils/validateCall";
 import socket from "../services/socket";
 
@@ -11,7 +11,8 @@ const useSocket = () => {
   useEffect(() => {
     socket.connect();
 
-    socket.on("USER_CONNECT", (data) => {
+    socket.on("USER_CONNECTED", (data) => {
+      dispatch(connectUser({ name: data.username, maxCalls: data.maxCalls }));
       console.log("Conectado ao servidor WebSocket:", data);
     });
 
