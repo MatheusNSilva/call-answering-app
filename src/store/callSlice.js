@@ -27,7 +27,7 @@ const callSlice = createSlice({
       );
     },
     setLeaveCallError: (state, action) => {
-      console.error("End Call Error:", action.payload);
+      console.error("Erro ao encerrar a chamada:", action.payload);
       state.error = action.payload.error;
     },
     clearCallError: (state) => {

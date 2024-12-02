@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Container, Box, Typography, Alert } from "@mui/material";
-import { connectUser } from "../store/userSlice";
 import FormBox from "../components/FormBox";
 import useSocket from "../hooks/useSocket";
 import "../styles/HomePage.css";
 
 const HomePage = () => {
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
   const { connect } = useSocket();
   const navigate = useNavigate();
   const [error, setError] = useState(null);

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { leaveCall } from "../store/callSlice";
 import {
   Box,
   Container,
@@ -13,7 +12,6 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Alert,
   Button,
 } from "@mui/material";
 import useSocket from "../hooks/useSocket";
@@ -21,23 +19,22 @@ import CallDetail from "../components/CallDetail";
 import CallList from "../components/CallList";
 import CallPageHeader from "../components/CallPageHeader";
 import "../styles/CallPage.css";
-import { disconnectUser } from "../store/userSlice";
+import { clearUserError, disconnectUser } from "../store/userSlice";
+import { clearCallError } from "../store/callSlice";
+import ErrorAlert from "../components/ErrorAlert";
 
 const CallPage = () => {
-  // const calls = useSelector((state) => state.call.calls);
+  const callError = useSelector((state) => state.call.error);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { name, maxCalls } = useSelector((state) => state.user);
   const [selectedCall, setSelectedCall] = useState(null);
-  const [userError, setUserError] = useState(null);
   const [isDisconnecting, setIsDisconnecting] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const navigate = useNavigate();
   const { disconnect, endCall } = useSocket();
 
-  // console.log("calls", calls);
-
-  const calls = [
+  const callsMock = [
     {
       callId: "12345",
       caller: "Teste2",
@@ -110,7 +107,6 @@ const CallPage = () => {
   const handleEndCall = (callId) => {
     setSelectedCall(null);
     endCall(callId);
-    leaveCall(callId);
   };
 
   const handleDisconnect = () => {
@@ -119,11 +115,11 @@ const CallPage = () => {
 
     setTimeout(() => {
       setIsDisconnecting((prevIsDisconnecting) => {
-      if (prevIsDisconnecting) {
-        setShowDialog(true);
-      }
-      return false;
-    });
+        if (prevIsDisconnecting) {
+          setShowDialog(true);
+        }
+        return false;
+      });
     }, 5000);
   };
 
@@ -137,12 +133,17 @@ const CallPage = () => {
   };
 
   useEffect(() => {
+    if (callError) {
+      console.error(callError || "Erro detectado ao encerrar chamado");
+    }
+  }, [callError]);
+
+  useEffect(() => {
     if (!user.connected) {
       navigate("/");
     }
     if (user.error) {
       console.error("Erro ao desconectar detectado:", user.error);
-      setUserError(user.error || "Erro ao desconectar do servidor");
       setIsDisconnecting(false);
     }
   }, [user.connected, user.error, navigate]);
@@ -150,21 +151,16 @@ const CallPage = () => {
   return (
     <Container className={"call-page"}>
       <CallPageHeader userInfo={{ name, maxCalls }} action={handleDisconnect} />
-
-      {userError && (
-        <Alert severity="error" sx={{ marginBottom: 2 }}>
-          {userError}
-        </Alert>
-      )}
-
       <Box component={"main"} className={"call-page-main"}>
-        {calls.length > 0 ? (
+        {callsMock.length > 0 ? (
           <>
-            <CallList calls={calls} action={handleSelectedCall} />
+            <CallList calls={callsMock} action={handleSelectedCall} />
             <Box className={"call-page-box"}>
               <Typography className={"call-page-box-title"} variant="h6">
                 Operador {name} com {maxCalls} chamados em atendimento
               </Typography>
+              <ErrorAlert label={user.error} onClose={() => dispatch(clearUserError())} />
+              <ErrorAlert label={callError} onClose={() => dispatch(clearCallError())} />
               <CallDetail call={selectedCall} onEndCall={handleEndCall} />
             </Box>
           </>
@@ -177,7 +173,6 @@ const CallPage = () => {
           </Box>
         )}
       </Box>
-
       <Backdrop open={isDisconnecting} sx={{ zIndex: 9999, color: "#fff" }}>
         <Box textAlign="center">
           <CircularProgress color="inherit" />
@@ -196,10 +191,19 @@ const CallPage = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button variant={"contained"} onClick={cancelDisconnect} color="primary">
+          <Button
+            variant={"contained"}
+            onClick={cancelDisconnect}
+            color="primary"
+          >
             Cancelar
           </Button>
-          <Button variant={"contained"} onClick={confirmDisconnect} color="error" autoFocus>
+          <Button
+            variant={"contained"}
+            onClick={confirmDisconnect}
+            color="error"
+            autoFocus
+          >
             Continuar
           </Button>
         </DialogActions>

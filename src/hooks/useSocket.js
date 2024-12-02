@@ -13,7 +13,6 @@ const useSocket = () => {
 
     socket.on("USER_CONNECTED", (data) => {
       dispatch(connectUser({ name: data.username, maxCalls: data.maxCalls }));
-      console.log("Conectado ao servidor WebSocket:", data);
     });
 
     socket.on("USER_CONNECTION_ERROR", (error) => {
@@ -34,7 +33,6 @@ const useSocket = () => {
     });
 
     socket.on("NEW_CALL", (call) => {
-      console.log("Novo chamado recebido:", call);
 
       try {
         const isCallValid = validateCall(call);
@@ -42,7 +40,6 @@ const useSocket = () => {
         if (isCallValid) {
           dispatch(addCall(call));
           answerCall(call.callId);
-          console.log("Chamado aceito:", call.callId);
         } else {
           throw new Error("Chamada inválida ou rejeitada.");
         }
@@ -53,7 +50,6 @@ const useSocket = () => {
     });
 
     socket.on("CALL_ENDED", (data) => {
-      console.log("Chamada encerrada:", data);
       dispatch(leaveCall(data.callId)); 
     });
 
@@ -75,12 +71,10 @@ const useSocket = () => {
   }, [dispatch]);
 
   const connect = (username, maxCalls) => {
-    console.log("connect", username, maxCalls);
-    socket.emit("USER_CONNECT", { username: username, maxCalls: maxCalls });
+    socket.emit("USER_CONNECT", { username, maxCalls });
   };
 
   const disconnect = (username) => {
-    console.log("disconnect", username);
     socket.emit("USER_DISCONNECT", { username });
   };
 
